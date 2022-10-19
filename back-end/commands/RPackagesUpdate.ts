@@ -1,21 +1,20 @@
 import { connect, disconnect } from "mongoose";
 import { MONGODB_URI } from "../src/util/secrets";
+import { RPackageModel } from "../src/models/RPackage/RPackage";
 
-(() => {
-  connect(MONGODB_URI, {})
-    .then(() => {
-      /**
-       * ready to use.
-       */
-      console.log("Hello World!");
-    })
-    .catch((err) => {
-      console.log(
-        `MongoDB connection error. Please make sure MongoDB is running. ${err}`
-      );
-      process.exit();
-    })
-    .finally(() => {
-      disconnect();
-    });
+(async () => {
+  try {
+    await connect(MONGODB_URI, {});
+  } catch (err) {
+    console.log(
+      `MongoDB connection error. Please make sure MongoDB is running. ${err}`
+    );
+    process.exit();
+  }
+  /**
+   * Run handle update function to update R packages
+   */
+  await RPackageModel.handleUpdate();
+
+  disconnect();
 })();
