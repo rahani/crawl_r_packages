@@ -9,9 +9,10 @@ if (fs.existsSync(".env")) {
   logger.debug(
     "Using .env.example file to supply config environment variables"
   );
-  dotenv.config({ path: ".env" });
+  dotenv.config({ path: ".env.example" });
 }
 export const ENVIRONMENT = process.env.NODE_ENV;
+export const CRAN_URL = process.env.CRAN_URL;
 const prod = ENVIRONMENT === "production"; // Anything else is treated as 'dev'
 
 const SESSION_SECRET_ENV = process.env["SESSION_SECRET"];
