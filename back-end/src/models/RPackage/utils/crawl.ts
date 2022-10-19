@@ -3,11 +3,9 @@ import * as cheerio from "cheerio";
 import fetch from "node-fetch";
 import * as zlib from "zlib";
 import * as tar from "tar-stream";
-
 import fs from "fs";
 import { InitialData, parseDataFromHref, seekingFormat } from "./parse";
-import request from "request";
-import { reject } from "lodash";
+import * as path from "path";
 
 /**
  * get html from CRAN_URL
@@ -50,7 +48,7 @@ export const getDescriptionData = async (initialData: InitialData) => {
     await downloadFile(serverUrl, localPath);
 
     // read DESCRIPTION file from zip file
-    const descriptionData = await new Promise((resolve) => {
+    const descriptionData = await new Promise((resolve, reject) => {
       var extract = tar.extract({});
       var data = "";
 
@@ -84,12 +82,16 @@ export const getDescriptionData = async (initialData: InitialData) => {
 
 /**
  * Download file from url and save it in the file system
+ * if folder is not exist, will create it
  * @param url for download
- * @param path for store file
+ * @param localpath for store file
  */
-const downloadFile = async (url: string, path: string) => {
+const downloadFile = async (url: string, localpath: string) => {
   const res = await fetch(url);
-  const fileStream = fs.createWriteStream(path);
+
+  fs.mkdirSync(path.dirname(localpath), { recursive: true });
+  const fileStream = fs.createWriteStream(localpath);
+
   await new Promise((resolve, reject) => {
     res.body.pipe(fileStream);
     res.body.on("error", reject);
