@@ -1,6 +1,7 @@
 import logger from "../../../util/logger";
 import { getRPackagesInitialData } from "../utils/crawl";
-import { getTasksList } from "../utils/helper";
+import { getTasksList, handleTask } from "../utils/helper";
+import { MAX_UPDATE_THREADS } from "../../../util/secrets";
 
 /**
  * get R packages Initial data
@@ -14,7 +15,12 @@ export async function handleUpdate() {
   const initialRPackagesData = await getRPackagesInitialData();
   const tasksList = await getTasksList(initialRPackagesData);
 
-  // run tasks
+  while (tasksList.length) {
+    // MAX_UPDATE_THREADS at a time
+    await Promise.all(
+      tasksList.splice(0, MAX_UPDATE_THREADS).map((task) => handleTask(task))
+    );
+  }
 
   logger.info("handleUpdate ends");
 }

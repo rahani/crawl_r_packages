@@ -1,10 +1,10 @@
 {
-  "name": "r_packages",
+  "name": "crawl_r_packages",
   "version": "1.0.0",
-  "description": "R Packages App Api",
+  "description": "Crawl R Packages App Api",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rahani/r_packages.git"
+    "url": "https://github.com/rahani/crawl_r_packages.git"
   },
   "author": "Jamal Rahani",
   "license": "MIT",

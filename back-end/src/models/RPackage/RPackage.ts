@@ -7,7 +7,6 @@ const RPackageSchema = new Schema<RPackageDocument>(
     PackageName: {
       type: String,
       required: true,
-      unique: true,
     },
     Version: {
       type: String,
@@ -15,10 +14,9 @@ const RPackageSchema = new Schema<RPackageDocument>(
     },
     RVersionNeeded: {
       type: String,
-      required: true,
     },
     Dependencies: {
-      type: String,
+      type: [String],
       required: true,
     },
     DateOrPublication: {
@@ -29,21 +27,23 @@ const RPackageSchema = new Schema<RPackageDocument>(
       type: String,
       required: true,
     },
-    Author: {
-      type: String,
+    Authors: {
+      type: [String],
       required: true,
     },
-    Maintainer: {
-      type: String,
+    Maintainers: {
+      type: [String],
       required: true,
     },
-    Licence: {
+    License: {
       type: String,
       required: true,
     },
   },
   { timestamps: true }
 );
+
+RPackageSchema.index({ PackageName: 1, Version: 1 }, { unique: true });
 
 /**
  * R Package middleware.
@@ -62,6 +62,6 @@ export interface RPackageModel extends Model<RPackageDocument> {
 RPackageSchema.statics.handleUpdate = handleUpdate;
 
 export const RPackageModel = model<RPackageDocument, RPackageModel>(
-  "RPackage",
+  "RPackages",
   RPackageSchema
 );

@@ -13,6 +13,8 @@ if (fs.existsSync(".env")) {
 }
 export const ENVIRONMENT = process.env.NODE_ENV;
 export const CRAN_URL = process.env.CRAN_URL;
+export const MAX_UPDATE_THREADS = +process.env.MAX_UPDATE_THREADS!;
+
 const prod = ENVIRONMENT === "production"; // Anything else is treated as 'dev'
 
 const SESSION_SECRET_ENV = process.env["SESSION_SECRET"];
