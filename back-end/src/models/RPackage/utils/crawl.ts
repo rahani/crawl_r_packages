@@ -49,8 +49,8 @@ export const getDescriptionData = async (initialData: InitialData) => {
 
     // read DESCRIPTION file from zip file
     const descriptionData = await new Promise<string>((resolve, reject) => {
-      var extract = tar.extract({});
-      var data = "";
+      const extract = tar.extract({});
+      let data = "";
 
       extract.on("entry", function (header, stream, cb) {
         stream.on("data", function (chunk) {
