@@ -10,7 +10,7 @@ COPY back-end/package.json .
 COPY back-end/package-lock.json .
 
 # install all dependencies
-RUN npm install
+RUN npm install --silent
 
 RUN ls -la
 
